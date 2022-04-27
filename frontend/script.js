@@ -1,4 +1,4 @@
-const URL = "http://localhost:8080/history?uid=0";
+const URL = "http://localhost:80/history?uid=0";
 
 var loginForm = document.getElementById("form-login");
 var registerForm = document.getElementById("form-register");
@@ -67,3 +67,25 @@ function showHistory(input) {
     par.innerText = `${item.timestamp} Your calculation: ${item.calc} `;
   });
 }
+
+var rentEuroInput = document.getElementById("rent-euro-input");
+var rentYearInput = document.getElementById("rent-year-input");
+var monthEuroInput = document.getElementById("month-euro-input");
+var monthYearInput = document.getElementById("month-year-input");
+
+function postData() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if ( this.readyState === 4 && this.status === 200 ) {
+      historyRoot.innerText = xhttp.responseText;
+    }
+  }
+  xhttp.open('POST', `${URL}`);
+  xhttp.setRequestHeader('Content-Type', 'application/json');
+  xhttp.send(JSON.stringify({
+    // TBD TBD TBD
+    "euro" : rentEuroInput.value,
+    "year" : rentYearInput.value
+  }));
+}
+ 
