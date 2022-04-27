@@ -4,5 +4,5 @@
 replicaCount: 1
 image:
   repository: clementgohlke/keepsafe-cloud-case
-  tag: 2
+  tag: 1
   pullPolicy: Always
