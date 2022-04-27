@@ -1,4 +1,4 @@
-
+const URL = "http://localhost:8080/history?uid=0";
 
 var loginForm = document.getElementById("form-login");
 var registerForm = document.getElementById("form-register");
@@ -40,7 +40,6 @@ function toggleRegisterForm() {
   }
 }
 
-const URL = "keepsafe.mysql.database.azure.com";
 
 function getData() {
   var xhttp = new XMLHttpRequest();
