@@ -10,6 +10,8 @@ var registerBtn = document.getElementById("register-btn");
 
 var historyRoot = document.getElementById("history-root");
 
+var interest = 1.6;
+
 
 if(loginBtn && registerBtn){
 loginBtn.addEventListener("click", toggleLoginForm);
@@ -48,7 +50,7 @@ function submitRentPost() {
   var rentYearInput = document.getElementById("rent-year-input").value;
 
   console.log(timestamp, rentEuroInput, rentYearInput);
-  postData(timestamp, rentEuroInput, rentYearInput, 0);
+  postData(timestamp, rentEuroInput, rentYearInput, interest, 0);
   location.reload();
 }
 
@@ -58,7 +60,7 @@ function submitMonthPost() {
   var monthYearInput = document.getElementById("month-year-input").value;
 
   console.log(timestamp, monthEuroInput, monthYearInput);
-  postData(timestamp, monthEuroInput, monthYearInput, 1);
+  postData(timestamp, monthEuroInput, monthYearInput, interest, 1);
   location.reload();
 }
 
@@ -110,7 +112,7 @@ function getData() {
   xhttp.send();
 }
 
-function postData(time, rent, year, isMonthly) {
+function postData(time, cost, year, interest,isMonthly) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if ( this.readyState === 4 && this.status === 200 ) {
@@ -120,5 +122,5 @@ function postData(time, rent, year, isMonthly) {
   }
   xhttp.open('POST', `${URL}/insertDatabase`);
   xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  xhttp.send(`userID=0&timestamp=${time}&calculation=${rent}&filename=0&isMonthly=${isMonthly}`);
+  xhttp.send(`userID=0&timestamp=${time}&cost=${cost}&length=${year}&interest=${interest}&filename=0&isMonthly=${isMonthly}`);
 }
