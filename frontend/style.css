@@ -112,7 +112,7 @@ footer {
   border-radius: 1rem;
 }
 
-input[type="text"] {
+input[type="text"], input[type="password"]  {
   padding: 0.5rem 1rem;
   border-radius: 1rem;
   background-color: var(--base-color);
