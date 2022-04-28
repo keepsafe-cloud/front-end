@@ -27,12 +27,14 @@
       <div class="options-wrap">
         <div class="totalRent-wrap card">
             <h3>Total rent</h3>
-            <form class="form" action="">
+            <form class="form">
                 <input type="text" placeholder="Amount in Euros" id="rent-euro-input">
                 <input type="text" placeholder="Years" id="rent-year-input">
                 <input type="file" id="rent-file">
-                <input type="submit" value="Calculate"class="btn calculate">
+                <!-- <input type="submit" value="Calculate"class="btn calculate" onclick="getCurrentTime()"> -->
+                
             </form>
+            <button onclick="submitRentPost()" class="btn calculate">Calculate</button>
             <p></p>
         </div>
         <div class="monthlyPayment-wrap card">
@@ -44,8 +46,10 @@
                     <input type="file" id="monthly-file">
                     <span class="file-custom"></span>
                 </label>
-                <input type="submit" value="Calculate" class="btn calculate">
+                <!-- <input type="submit" value="Calculate" class="btn calculate" onclick="getCurrentTime()"> -->
           </form>
+          <button onclick="submitMonthPost()" class="btn calculate">Calculate</button>
+
           <p></p>
         </div>
       </div>
@@ -54,7 +58,7 @@
 
 
       <div id="history-root">
-        <button onclick="getData()">show history</button>
+        <!-- <button onclick="getData()">show history</button> -->
 
         <!-- <div class="his-item">
           <div class="date-time">Placeholder timestamp</div>

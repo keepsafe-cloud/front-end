@@ -1,4 +1,6 @@
-const URL = "http://localhost:80/history?uid=0";
+const URL = "http://localhost:8080";
+
+window.addEventListener("load", getData);
 
 var loginForm = document.getElementById("form-login");
 var registerForm = document.getElementById("form-register");
@@ -40,52 +42,83 @@ function toggleRegisterForm() {
   }
 }
 
+function submitRentPost() {
+  let timestamp = getCurrentDateTime();
+  var rentEuroInput = document.getElementById("rent-euro-input").value;
+  var rentYearInput = document.getElementById("rent-year-input").value;
+
+  console.log(timestamp, rentEuroInput, rentYearInput);
+  postData(timestamp, rentEuroInput, rentYearInput, 0);
+  location.reload();
+}
+
+function submitMonthPost() {
+  let timestamp = getCurrentDateTime();
+  var monthEuroInput = document.getElementById("month-euro-input").value;
+  var monthYearInput = document.getElementById("month-year-input").value;
+
+  console.log(timestamp, monthEuroInput, monthYearInput);
+  postData(timestamp, monthEuroInput, monthYearInput, 1);
+  location.reload();
+}
+
+function getCurrentDateTime() { 
+  var today = new Date();
+  var date = today.getDate() + '-'+ (today.getMonth()+1) +'-'+ today.getFullYear();
+  var min = today.getMinutes();
+  if (min.lenght == 1) { min = '0' + min; }
+  var time = today.getHours() + ":" + min + ":" + today.getSeconds();
+ 
+  return date + ' , ' + time;
+}
+
+function showHistory(userItems) {
+
+  userItems.reverse().forEach(item => {
+
+    var wrap = document.createElement("div");
+    var parTime = document.createElement("p");
+    var parCalc = document.createElement("p");
+    if (item.isMonthly == 1) {
+      var payment = "Your monthly payment:";
+    } else if (item.isMonthly == 0) {
+      var payment = "Your rent is:";
+    } else {
+      var payment = "Bliep bloep bliep bliep oei je bent gehacked ";
+    }
+
+    historyRoot.append(wrap);
+    wrap.append(parTime);
+    wrap.append(parCalc);
+    wrap.classList.add("his-item");
+
+    parTime.innerText = item.timestamp;
+    parCalc.innerText = `${payment} ${item.calculation} `;
+
+  });
+}
 
 function getData() {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if ( this.readyState === 4 && this.status === 200 ) {
-      historyRoot.innerText = xhttp.responseText;
-      showHistory(JSON.parse(xhttp.responseText));
+      showHistory(JSON.parse(xhttp.responseText).result);
+      console.log(JSON.parse(xhttp.responseText).result);
     }
   }
-  xhttp.open('GET', `${URL}`, true);
+  xhttp.open('GET', `${URL}/history?uid=0`, true);
   xhttp.send();
 }
 
-function showHistory(input) {
-  console.log(inputArray);
-
-  inputArray.forEach(item => {
-    var wrap = document.createElement("div");
-    var par = document.createElement("p");
-
-    historyRoot.append(wrap);
-    wrap.append(par);
-    wrap.classList.add("his-item");
-
-    par.innerText = `${item.timestamp} Your calculation: ${item.calc} `;
-  });
-}
-
-var rentEuroInput = document.getElementById("rent-euro-input");
-var rentYearInput = document.getElementById("rent-year-input");
-var monthEuroInput = document.getElementById("month-euro-input");
-var monthYearInput = document.getElementById("month-year-input");
-
-function postData() {
+function postData(time, rent, year, isMonthly) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if ( this.readyState === 4 && this.status === 200 ) {
-      historyRoot.innerText = xhttp.responseText;
+      // historyRoot.innerText = xhttp.responseText;
+      console.log(JSON.parse(xhttp.responseText));
     }
   }
-  xhttp.open('POST', `${URL}`);
-  xhttp.setRequestHeader('Content-Type', 'application/json');
-  xhttp.send(JSON.stringify({
-    // TBD TBD TBD
-    "euro" : rentEuroInput.value,
-    "year" : rentYearInput.value
-  }));
+  xhttp.open('POST', `${URL}/insertDatabase`);
+  xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhttp.send(`userID=0&timestamp=${time}&calculation=${rent}&filename=0&isMonthly=${isMonthly}`);
 }
- 
