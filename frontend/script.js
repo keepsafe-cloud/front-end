@@ -1,5 +1,5 @@
 // const URL = "http://localhost:8080";
-const URL = `${window.location.host}/api`;
+const URL = '/api';
 
 window.addEventListener("load", getData);
 
